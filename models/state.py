@@ -1,34 +1,26 @@
 #!/usr/bin/python3
-"""This is the state class"""
-
-import models
+""" State Module for HBNB project """
 from models.base_model import BaseModel, Base
-from models.city import City
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
-import shlex
+import models
+from models.city import City
+import os
 
 
 class State(BaseModel, Base):
-    """This is the class for State"""
+    """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", cascade='all, delete, delete-orphan',
-                          backref="state")
+    cities = relationship("City", cascade="all, delete", backref="state")
 
-    @property
-    def cities(self):
-        var = models.storage.all()
-        lista = []
-        result = []
-        for key in var:
-            city = key.replace('.', ' ')
-            city = shlex.split(city)
-            if (city[0] == 'City'):
-                lista.append(var[key])
-        for i in lista:
-            if (i.state_id == self.id):
-                result.append(i)
-        return (result)
-
+    if os.getenv('HBNB_TYPE_STORAGE') != "db":
+        @property
+        def cities(self):
+            """fs getter attribute that returns City instances"""
+            cit_lis = []
+            all_cit = models.storage.all(City)
+            for city in all_cit.values():
+                if city.state_id == self.id:
+                    cit_lis.append(city)
+            return cit_lis
