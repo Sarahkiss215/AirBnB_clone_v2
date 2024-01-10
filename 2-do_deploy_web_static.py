@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Distributes an archive to web servers using the function do_deploy"""
 from fabric.api import *
-from datetime import datetime
 from os.path import exists
 
 env.hosts = ["54.144.149.14", "18.209.179.185"]
