@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Creates and distributes an archive to web servers 
+"""Creates and distributes an archive to web servers
 using the function deploy"""
 from fabric.api import *
 from os.path import exists
@@ -57,6 +57,7 @@ def do_deploy(archive_path):
         return True
     except Exception as e:
         return False
+
 
 def deploy():
     """Creates and distributes an archive to web servers"""
