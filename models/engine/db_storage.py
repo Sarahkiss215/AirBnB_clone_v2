@@ -82,3 +82,8 @@ class DBStorage:
     def close(self):
         """Dispose of current session if active"""
         self.__session.remove()
+
+    def close(self):
+        """ calls remove()
+        """
+        self.__session.close()
